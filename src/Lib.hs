@@ -42,3 +42,34 @@ maxmin1 list =
     t = maxmin (tail list)
     t_max = fst t
     t_min = snd t
+
+data Gender = Male | Female | Unknown
+  deriving (Show)
+
+data Person = Person String String Gender
+  deriving (Show)
+
+data Client
+  = GovOrg String
+  | Company String Integer String String
+  | Individual Person Bool
+  deriving (Show)
+
+clientName :: Client -> String
+clientName client = case client of
+  GovOrg name -> name
+  Company name id person resp -> name
+  Individual person ads ->
+    case person of
+      Person fNm lNm gender -> fNm ++ " " ++ lNm
+
+clientName1 :: Client -> String
+clientName1 client = case client of
+  GovOrg name -> name
+  Company name _ _ _ -> name
+  Individual (Person firstName lastName _) _ -> firstName ++ " " ++ lastName
+
+companyName :: Client -> Maybe String
+companyName client = case client of
+  Company name _ _ _ -> Just name
+  _ -> Nothing
