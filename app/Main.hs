@@ -2,8 +2,9 @@ module Main where
 
 import Lib
   ( Client (Company, Individual),
-    Gender (Male),
+    Gender (Female, Male),
     Person (..),
+    clientCount,
     clientName,
     companyName,
     firstOrEmpty,
@@ -18,11 +19,17 @@ import Lib
 person1 :: Person
 person1 = Person "hello" "world" Male
 
+person2 :: Person
+person2 = Person "hello" "world" Female
+
 client1 :: Client
 client1 = Individual person1 True
 
 client2 :: Client
 client2 = Company "Google" 12131 "Sundar Prechai" "CEO"
+
+client3 :: Client
+client3 = Individual person2 True
 
 main :: IO ()
 main = do
@@ -36,6 +43,7 @@ main = do
   print (clientName client1)
   print (companyName client1)
   print (companyName client2)
+  print (clientCount [client1, client2, client3, client3, client2, client1])
 
 -- someFunc (firstOrEmpty ["Hello", "World"])
 -- firstOrEmpty

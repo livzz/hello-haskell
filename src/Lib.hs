@@ -73,3 +73,28 @@ companyName :: Client -> Maybe String
 companyName client = case client of
   Company name _ _ _ -> Just name
   _ -> Nothing
+
+fibonacci :: Integer -> Integer
+fibonacci n = case n of
+  0 -> 0
+  1 -> 1
+  _ -> fibonacci (n - 1) + fibonacci (n - 2)
+
+data Genders = Genders Integer Integer
+  deriving (Show)
+
+clientCount clients =
+  if null clients
+    then (0, 0)
+    else case head clients of
+      GovOrg {} -> t
+      Company {} -> t
+      Individual per _ ->
+        case per of
+          Person _ _ Male -> (male + 1, female)
+          Person _ _ Female -> (male, female + 1)
+          Person {} -> t
+  where
+    t = clientCount (tail clients)
+    male = fst t
+    female = snd t
