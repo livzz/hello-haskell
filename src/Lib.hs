@@ -80,6 +80,14 @@ fibonacci n = case n of
   1 -> 1
   _ -> fibonacci (n - 1) + fibonacci (n - 2)
 
+ifibonacci n | n < 0 = Nothing
+ifibonacci 0 = Just 0
+ifibonacci 1 = Just 1
+ifibonacci n =
+  let Just f1 = ifibonacci (n - 1)
+      Just f2 = ifibonacci (n - 2)
+   in Just (f1 + f2)
+
 data Genders = Genders Integer Integer
   deriving (Show)
 
@@ -98,3 +106,32 @@ clientCount clients =
     t = clientCount (tail clients)
     male = fst t
     female = snd t
+
+sorted :: [Integer] -> Bool
+sorted [] = True
+sorted [_] = True
+-- sorted (x : y : zs) = x < y && sorted (y : zs)
+sorted (x : r@(y : zs)) = x < y && sorted r
+
+maxmin2 [x] = (x, x)
+maxmin2 (x : xs) =
+  ( if x > xs_max then x else xs_max,
+    if x < xs_min then x else xs_min
+  )
+  where
+    (xs_max, xs_min) = maxmin xs
+
+multipleOf :: Integer -> Integer -> Bool
+multipleOf x y = (mod x y) == 0
+
+specialMultiples :: Integer -> String
+specialMultiples n | multipleOf n 2 = show n ++ " is multiple of 2"
+specialMultiples n | multipleOf n 3 = show n ++ " is multiple of 3"
+specialMultiples n | multipleOf n 5 = show n ++ " is multiple of 5"
+specialMultiples n | otherwise = show n ++ " is a beautiful number"
+
+specialMultiples1 n
+  | multipleOf n 2 = show n ++ " is multiple of 2"
+  | multipleOf n 3 = show n ++ " is multiple of 3"
+  | multipleOf n 5 = show n ++ " is multiple of 5"
+  | otherwise = show n ++ " is a beautiful number"
